@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MediaInput from '../../components/MediaInput/MediaInput';
 import SteganographyForm from '../../components/SteganographyForm/SteganographyForm';
 import './SteganographyView.scss';
