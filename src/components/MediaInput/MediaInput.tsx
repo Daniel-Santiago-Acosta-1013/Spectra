@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import analyzeFile from '../utils/fileAnalyzer';
+import { useState } from 'react';
+import analyzeFile from '../../utils/fileAnalyzer';
 
 function MediaInput() {
     const [fileInfo, setFileInfo] = useState(null);
