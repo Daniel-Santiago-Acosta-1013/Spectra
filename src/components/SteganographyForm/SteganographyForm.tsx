@@ -14,13 +14,21 @@ function SteganographyForm({ file, fileType, capacity }: { file: File | null, fi
     switch (fileType) {
       case 'image':
         encryptedFile = await encryptMessageInImage(file, message);
+
+        // Crear un enlace para descargar la imagen encriptada
+        const url = URL.createObjectURL(encryptedFile);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file.name.replace(/\.[^/.]+$/, "") + "-encript";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
         break;
       default:
         console.error('Unsupported file type for encryption');
         return;
     }
-
-    console.log('Encrypted File:', encryptedFile);
   };
 
   const handleDecrypt = async () => {
