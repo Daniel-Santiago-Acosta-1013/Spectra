@@ -1,20 +1,22 @@
 .SteganographyForm {
-    background-color: #0d1117; // Fondo oscuro de GitHub
+    background-color: #0d1117;
     padding: 20px;
     border-radius: 10px;
-    color: #f0f6fc; // Color de texto claro de GitHub
+    color: #f0f6fc;
 
     textarea {
         width: 100%;
-        background-color: #161b22; // Fondo oscuro de GitHub
-        color: #c9d1d9; // Color de texto de GitHub
-        border: 1px solid #30363d; // Bordes de GitHub
+        background-color: #161b22;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
         border-radius: 5px;
         padding: 10px;
         margin-bottom: 10px;
+        resize: vertical;
     }
 
     p {
-        color: #8b949e; // Color secundario de texto de GitHub
+        color: #8b949e;
+        margin-bottom: 10px;
     }
 }

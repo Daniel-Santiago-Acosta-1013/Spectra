@@ -1,19 +1,24 @@
 .MediaInput {
-    color: #f0f6fc; // Color de texto claro de GitHub
+    color: #f0f6fc;
     margin-bottom: 20px;
 
     input[type="file"] {
-        background-color: #161b22; // Fondo oscuro de GitHub
-        color: #c9d1d9; // Color de texto de GitHub
-        border: 1px solid #30363d; // Bordes de GitHub
+        background-color: #161b22;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
         padding: 10px;
         border-radius: 5px;
         cursor: pointer;
+        transition: border-color 0.3s ease;
+
+        &:hover {
+            border-color: #58a6ff;
+        }
     }
 
     div {
         margin-top: 10px;
         font-size: 0.9em;
-        color: #8b949e; // Color secundario de texto de GitHub
+        color: #8b949e;
     }
 }
