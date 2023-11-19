@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 import EncryptButton from '../EncryptButton/EncryptButton';
 import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
@@ -38,13 +39,22 @@ function SteganographyForm({ file, fileType, capacity }: { file: File | null, fi
     switch (fileType) {
       case 'image':
         decryptedMessage = await decryptMessageFromImage(file);
+        if (decryptedMessage) {
+          setMessage(decryptedMessage);
+        } else {
+          // Mostrar un modal si no hay mensaje
+          Swal.fire({
+            title: 'No Message Found',
+            text: 'There is no hidden message in this image.',
+            icon: 'info',
+            confirmButtonText: 'Ok'
+          });
+        }
         break;
       default:
         console.error('Unsupported file type for decryption');
         return;
     }
-
-    console.log('Decrypted Message:', decryptedMessage);
   };
 
   return (
