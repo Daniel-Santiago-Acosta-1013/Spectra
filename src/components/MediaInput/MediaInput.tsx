@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
 
-function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string) => void }) {
-    // Define el tipo de estado como FileAnalysis o null
+function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string, capacity: number) => void }) {
     const [fileInfo, setFileInfo] = useState<FileAnalysis | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,7 +9,7 @@ function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: str
             const file = event.target.files[0];
             const analysis = analyzeFile(file);
             setFileInfo(analysis);
-            onFileChange(file, analysis.fileType);
+            onFileChange(file, analysis.fileType, analysis.capacity);
         }
     };
 

@@ -4,7 +4,7 @@ import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
 import './SteganographyForm.scss';
 
-function SteganographyForm({ file, fileType }: { file: File | null, fileType: string }) {
+function SteganographyForm({ file, fileType, capacity }: { file: File | null, fileType: string, capacity: number }) {
   const [message, setMessage] = useState('');
 
   const handleEncrypt = async () => {
@@ -41,11 +41,13 @@ function SteganographyForm({ file, fileType }: { file: File | null, fileType: st
 
   return (
     <div className="SteganographyForm">
-      <textarea 
-        value={message} 
-        onChange={(e) => setMessage(e.target.value)} 
+      <textarea
+        value={message}
+        onChange={(e) => setMessage(e.target.value.substring(0, capacity))}
         placeholder="Enter your message here"
+        maxLength={capacity}
       />
+      <p>Characters: {message.length}/{capacity}</p>
       <EncryptButton onEncrypt={handleEncrypt} />
       <DecryptButton onDecrypt={handleDecrypt} />
     </div>
