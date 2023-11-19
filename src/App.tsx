@@ -1,4 +1,3 @@
-import './App.scss';
 import SteganographyView from './views/SteganographyView/SteganographyView';
 
 function App() {

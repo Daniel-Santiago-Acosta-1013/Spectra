@@ -13,8 +13,8 @@ function SteganographyView() {
   };
 
   return (
-    <div className="SteganographyView">
-      <h1>Spectra Steganography Suite</h1>
+    <div className="Steganography View">
+      <h1>Spectra</h1>
       <MediaInput onFileChange={handleFileChange} />
       <SteganographyForm file={file} fileType={fileType} />
     </div>
