@@ -1,6 +1,6 @@
 type FileType = 'image' | 'unsupported';
 
-interface FileAnalysis {
+export interface FileAnalysis {
     fileType: FileType;
     capacity: number;
 }

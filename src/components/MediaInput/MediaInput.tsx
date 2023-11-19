@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import analyzeFile from '../../utils/fileAnalyzer';
+import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
 
-function MediaInput() {
-    const [fileInfo, setFileInfo] = useState(null);
+function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string) => void }) {
+    // Define el tipo de estado como FileAnalysis o null
+    const [fileInfo, setFileInfo] = useState<FileAnalysis | null>(null);
 
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        const analysis = analyzeFile(file);
-        setFileInfo(analysis);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            const analysis = analyzeFile(file);
+            setFileInfo(analysis);
+            onFileChange(file, analysis.fileType);
+        }
     };
 
     return (
