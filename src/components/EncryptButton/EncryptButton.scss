@@ -1,0 +1,14 @@
+.EncryptButton {
+    background-color: #0366d6; // Color azul de GitHub
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+}
