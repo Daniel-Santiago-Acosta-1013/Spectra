@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import EncryptButton from '../EncryptButton/EncryptButton';
 import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
-import SteganographyVisualization from '../SteganographyVisualization/SteganographyVisualization';
 import './SteganographyForm.scss';
 
 function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { file: File | null, fileType: string, capacity: number, isPotentialStego: boolean }) {
@@ -77,9 +76,6 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
         <p>Characters: {message.length}/{capacity}</p>
         <EncryptButton onEncrypt={handleEncrypt} />
         {isStegoDetected && <DecryptButton onDecrypt={handleDecrypt} />}
-      </div>
-      <div className='steganoVisualizationContainer'>
-        <SteganographyVisualization isStegoDetected={isStegoDetected} />
       </div>
     </>
   );
