@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
+import { decryptMessageFromImage } from '../../utils/imageSteganography'; 
 import './MediaInput.scss';
 
-function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string, capacity: number) => void }) {
+function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: File, fileType: string, capacity: number) => void, onDecryptAttempt: (isStegoDetected: boolean) => void }) {
     const [fileInfo, setFileInfo] = useState<FileAnalysis | null>(null);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             const analysis = analyzeFile(file);
             setFileInfo(analysis);
             onFileChange(file, analysis.fileType, analysis.capacity);
+
+            if (analysis.fileType === 'image') {
+                try {
+                    const decryptedMessage = await decryptMessageFromImage(file);
+                    onDecryptAttempt(decryptedMessage !== '');
+                } catch (error) {
+                    onDecryptAttempt(false);
+                }
+            }
         }
     };
 

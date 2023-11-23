@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import EncryptButton from '../EncryptButton/EncryptButton';
 import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
 import './SteganographyForm.scss';
 
-function SteganographyForm({ file, fileType, capacity }: { file: File | null, fileType: string, capacity: number }) {
+function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { file: File | null, fileType: string, capacity: number, isPotentialStego: boolean }) {
   const [message, setMessage] = useState('');
   const [isStegoDetected, setIsStegoDetected] = useState(false);
+
+  useEffect(() => {
+    setIsStegoDetected(isPotentialStego);
+  }, [isPotentialStego])
 
   const handleEncrypt = async () => {
     if (!file) return;
