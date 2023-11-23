@@ -3,9 +3,12 @@
     padding: 20px;
     border-radius: 10px;
     color: #f0f6fc;
+    width: 100%;
+    box-sizing: border-box; 
 
     textarea {
-        width: 100%;
+        width: 96%;
+        min-height: 200px;
         background-color: #161b22;
         color: #c9d1d9;
         border: 1px solid #30363d;

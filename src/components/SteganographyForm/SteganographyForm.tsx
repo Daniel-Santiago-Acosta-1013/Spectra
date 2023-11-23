@@ -7,6 +7,7 @@ import './SteganographyForm.scss';
 
 function SteganographyForm({ file, fileType, capacity }: { file: File | null, fileType: string, capacity: number }) {
   const [message, setMessage] = useState('');
+  const [isStegoDetected, setIsStegoDetected] = useState(false);
 
   const handleEncrypt = async () => {
     if (!file) return;
@@ -25,6 +26,7 @@ function SteganographyForm({ file, fileType, capacity }: { file: File | null, fi
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        setIsStegoDetected(true);
         break;
       default:
         console.error('Unsupported file type for encryption');
@@ -41,6 +43,7 @@ function SteganographyForm({ file, fileType, capacity }: { file: File | null, fi
         decryptedMessage = await decryptMessageFromImage(file);
         if (decryptedMessage) {
           setMessage(decryptedMessage);
+          setIsStegoDetected(false);
         } else {
           // Mostrar un modal si no hay mensaje
           Swal.fire({
@@ -67,7 +70,7 @@ function SteganographyForm({ file, fileType, capacity }: { file: File | null, fi
       />
       <p>Characters: {message.length}/{capacity}</p>
       <EncryptButton onEncrypt={handleEncrypt} />
-      <DecryptButton onDecrypt={handleDecrypt} />
+      {isStegoDetected && <DecryptButton onDecrypt={handleDecrypt} />}
     </div>
   );
 }

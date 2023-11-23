@@ -1,24 +1,37 @@
 .MediaInput {
-    color: #f0f6fc;
     margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    input[type="file"] {
-        background-color: #161b22;
-        color: #c9d1d9;
-        border: 1px solid #30363d;
-        padding: 10px;
+    .file-upload-label {
+        display: inline-block;
+        background-color: #0366d6;
+        color: #fff;
+        padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
-        transition: border-color 0.3s ease;
+        transition: background-color 0.3s ease;
 
         &:hover {
-            border-color: #58a6ff;
+            background-color: #0056b3;
         }
     }
 
-    div {
+    .file-upload-input {
+        display: none;
+    }
+
+    .file-info {
         margin-top: 10px;
         font-size: 0.9em;
         color: #8b949e;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #30363d;
+        border-radius: 5px;
+        background-color: #161b22;
     }
 }
