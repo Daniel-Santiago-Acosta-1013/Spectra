@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
 import { decryptMessageFromImage } from '../../utils/imageSteganography'; 
+import Swal from 'sweetalert2';
 import './MediaInput.scss';
 
 function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: File, fileType: string, capacity: number) => void, onDecryptAttempt: (isStegoDetected: boolean) => void }) {
@@ -10,6 +11,17 @@ function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: F
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             const analysis = analyzeFile(file);
+
+            if (analysis.fileType === 'unsupported') {
+                Swal.fire({
+                    title: 'Unsupported File Type',
+                    text: 'Please select a PNG, JPEG, JPG, or SVG file.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                return;
+            }
+            
             setFileInfo(analysis);
             onFileChange(file, analysis.fileType, analysis.capacity);
 
