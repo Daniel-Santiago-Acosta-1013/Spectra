@@ -18,10 +18,8 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
 
     let encryptedFile;
     switch (fileType) {
-      case 'image':
+      case 'image': {
         encryptedFile = await encryptMessageInImage(file, message);
-
-        // Crear un enlace para descargar la imagen encriptada
         const url = URL.createObjectURL(encryptedFile);
         const a = document.createElement("a");
         a.href = url;
@@ -32,6 +30,7 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
         URL.revokeObjectURL(url);
         setIsStegoDetected(true);
         break;
+      }
       default:
         console.error('Unsupported file type for encryption');
         return;

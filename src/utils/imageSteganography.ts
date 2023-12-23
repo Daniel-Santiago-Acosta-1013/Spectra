@@ -2,7 +2,7 @@ export function encryptMessageInImage(file: File, message: string): Promise<File
     return new Promise((resolve, reject) => {
         const messageBinary = message.split('').map(char => 
             char.charCodeAt(0).toString(2).padStart(8, '0')
-        ).join('') + '00000000'; // Agregar un marcador de finalización
+        ).join('') + '00000000';
 
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -25,7 +25,7 @@ export function encryptMessageInImage(file: File, message: string): Promise<File
 
                 context.drawImage(img, 0, 0);
                 const imageData = context.getImageData(0, 0, img.width, img.height);
-                let data = imageData.data;
+                const data = imageData.data;
 
                 for (let i = 0; i < messageBinary.length; i++) {
                     const bit = parseInt(messageBinary[i]);
@@ -75,7 +75,7 @@ export function decryptMessageFromImage(file: File): Promise<string> {
 
                 context.drawImage(img, 0, 0);
                 const imageData = context.getImageData(0, 0, img.width, img.height);
-                let data = imageData.data;
+                const data = imageData.data;
 
                 let binaryMessage = '';
                 for (let i = 0; i < data.length; i += 4) {

@@ -29,11 +29,11 @@ function calculateImageCapacity(file: File): number {
     const isJpeg = file.type.includes('jpeg') || file.type.includes('jpg');
 
     if (isPng) {
-        return file.size * 8 / 24; // 1 bit por píxel para PNG
+        return file.size * 8 / 24;
     } else if (isJpeg) {
-        return file.size / 64; // 1 bit por bloque de DCT para JPEG
+        return file.size / 64;
     } else {
-        return 0; // Formato no soportado
+        return 0;
     }
 }
 
