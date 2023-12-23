@@ -4,3 +4,11 @@ body {
     padding: 0;
     background-color: #0d1117;
 }
+
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
