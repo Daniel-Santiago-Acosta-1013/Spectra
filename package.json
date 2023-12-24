@@ -15,7 +15,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.69.5",
-    "sweetalert2": "^11.10.1"
+    "sweetalert2": "^11.10.1",
+    "vite-plugin-pwa": "^0.17.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
