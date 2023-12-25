@@ -12,7 +12,7 @@ export default defineConfig({
         name: 'Spectra Steganography Suite',
         short_name: 'Spectra',
         description: 'Spectra Steganography Suite',
-        theme_color: '#ffffff',
+        theme_color: '#131127',
         icons: [
           {
             src: 'spectra-icon.svg',
@@ -27,7 +27,7 @@ export default defineConfig({
         ],
         start_url: '/',
         display: 'standalone',
-        background_color: '#ffffff'
+        background_color: '#131127'
       },
     }),
   ],

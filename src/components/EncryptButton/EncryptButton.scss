@@ -1,5 +1,5 @@
 .EncryptButton {
-    background-color: #0366d6;
+    background-color: #300390;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -10,7 +10,8 @@
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: #0056b3;
+        background-color: #300390;
+        filter: brightness(90%);
         transform: scale(1.05);
     }
 }
