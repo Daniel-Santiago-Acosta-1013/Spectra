@@ -6,7 +6,6 @@ const EncryptView: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [fileType, setFileType] = useState<string>('');
     const [capacity, setCapacity] = useState<number>(0);
-    const [message, setMessage] = useState<string>('');
 
     const handleFileChange = (selectedFile: File, type: string, cap: number) => {
         setFile(selectedFile);
@@ -18,7 +17,7 @@ const EncryptView: React.FC = () => {
         <div>
             <h1>Encriptar Información en Imagen</h1>
             <MediaInput onFileChange={handleFileChange} />
-            {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="encrypt" onMessageChange={setMessage} message={message} />}
+            {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="encrypt" isPotentialStego={false} />}
         </div>
     );
 }
