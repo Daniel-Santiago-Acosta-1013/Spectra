@@ -16,7 +16,7 @@ const EncryptView: React.FC = () => {
 
     return (
         <div className='EncryptView'>
-            <h1>Encriptar Información en Imagen</h1>
+            <h1>Image Data Encryption</h1>
             <MediaInput onFileChange={handleFileChange} />
             {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="encrypt" isPotentialStego={false} />}
         </div>
