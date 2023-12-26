@@ -20,7 +20,7 @@ const DecryptView: React.FC = () => {
             <h1>Decrypt Image Information</h1>
             <MediaInput onFileChange={handleFileChange} />
             {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="decrypt" isPotentialStego={false} />}
-            <input type="text" value={key} onChange={e => setKey(e.target.value)} placeholder="Enter decryption key" />
+            <input type="text" value={key} onChange={e => setKey(e.target.value)} placeholder="Enter decryption key" className='input-key'/>
         </div>
     );
 }
