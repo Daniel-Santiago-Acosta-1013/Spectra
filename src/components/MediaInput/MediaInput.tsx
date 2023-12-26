@@ -3,7 +3,7 @@ import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
 import Swal from 'sweetalert2';
 import './MediaInput.scss';
 
-function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string, capacity: number) => void, onDecryptAttempt: (isStegoDetected: boolean) => void }) {
+function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string, capacity: number) => void }) {
     const [fileInfo, setFileInfo] = useState<FileAnalysis | null>(null);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
