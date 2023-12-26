@@ -1,8 +1,10 @@
-export function encryptMessageInImage(file: File, message: string): Promise<File> {
+import CryptoJS from 'crypto-js';
+
+export function encryptMessageInImage(file: File, message: string): Promise<{ encryptedFile: File, key: string }> {
     return new Promise((resolve, reject) => {
-        const messageBinary = message.split('').map(char => 
-            char.charCodeAt(0).toString(2).padStart(8, '0')
-        ).join('') + '00000000';
+        // Genera una clave AES aleatoria
+        const key = CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+        const encryptedMessage = CryptoJS.AES.encrypt(message, key).toString();
 
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -27,6 +29,11 @@ export function encryptMessageInImage(file: File, message: string): Promise<File
                 const imageData = context.getImageData(0, 0, img.width, img.height);
                 const data = imageData.data;
 
+                // Convertir el mensaje encriptado a binario
+                const messageBinary = encryptedMessage.split('').map(char => 
+                    char.charCodeAt(0).toString(2).padStart(8, '0')
+                ).join('') + '00000000';
+
                 for (let i = 0; i < messageBinary.length; i++) {
                     const bit = parseInt(messageBinary[i]);
                     data[i * 4 + 3] = (data[i * 4 + 3] & 0xFE) | bit;
@@ -37,7 +44,7 @@ export function encryptMessageInImage(file: File, message: string): Promise<File
                 canvas.toBlob((blob) => {
                     if (blob) {
                         const encryptedFile = new File([blob], file.name, {type: file.type});
-                        resolve(encryptedFile);
+                        resolve({ encryptedFile, key });
                     } else {
                         reject(new Error("Fallo al convertir el canvas a Blob"));
                     }
@@ -52,7 +59,7 @@ export function encryptMessageInImage(file: File, message: string): Promise<File
     });
 }
 
-export function decryptMessageFromImage(file: File): Promise<string> {
+export function decryptMessageFromImage(file: File, key: string): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -82,18 +89,17 @@ export function decryptMessageFromImage(file: File): Promise<string> {
                     binaryMessage += (data[i + 3] & 1).toString();
                 }
 
-                const matchResult = binaryMessage.match(/.{1,8}/g);
-                if (!matchResult) {
-                    reject(new Error("Fallo al decodificar el mensaje"));
-                    return;
+                try {
+                    // Decodifica el mensaje utilizando la clave AES proporcionada
+                    const decryptedBytes = CryptoJS.AES.decrypt(binaryMessage, key);
+                    const decryptedMessage = decryptedBytes.toString(CryptoJS.enc.Utf8);
+                    if (!decryptedMessage) {
+                        throw new Error();
+                    }
+                    resolve(decryptedMessage);
+                } catch (e) {
+                    reject(new Error("Fallo al desencriptar el mensaje"));
                 }
-
-                const message = matchResult.map(byte => 
-                    String.fromCharCode(parseInt(byte, 2))
-                ).join('');
-
-                const endIndex = message.indexOf('\0');
-                resolve(endIndex !== -1 ? message.substr(0, endIndex) : message);
             };
 
             img.src = event.target.result.toString();

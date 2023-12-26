@@ -8,6 +8,7 @@ import './SteganographyForm.scss';
 function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { file: File | null, fileType: string, capacity: number, isPotentialStego: boolean }) {
   const [message, setMessage] = useState('');
   const [isStegoDetected, setIsStegoDetected] = useState(false);
+  const [key, setKey] = useState('');
 
   useEffect(() => {
     setIsStegoDetected(isPotentialStego);
@@ -15,35 +16,26 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
 
   const handleEncrypt = async () => {
     if (!file) return;
-
-    let encryptedFile;
-    switch (fileType) {
-      case 'image': {
-        encryptedFile = await encryptMessageInImage(file, message);
-        const url = URL.createObjectURL(encryptedFile);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = file.name.replace(/\.[^/.]+$/, "") + "-encript";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        setIsStegoDetected(true);
-        break;
-      }
-      default:
-        console.error('Unsupported file type for encryption');
-        return;
+  
+    try {
+      const { encryptedFile, key } = await encryptMessageInImage(file, message);
+      // Guarda la imagen encriptada
+      saveFile(encryptedFile, encryptedFile.name);
+      // Guarda la clave en un archivo de texto
+      saveFile(new Blob([key], { type: 'text/plain' }), `key-${encryptedFile.name}.txt`);
+      setIsStegoDetected(true);
+    } catch (error) {
+      console.error('Error en la encriptación:', error);
     }
   };
 
   const handleDecrypt = async () => {
-    if (!file) return;
+    if (!file || !key) return;
 
     let decryptedMessage;
     switch (fileType) {
       case 'image':
-        decryptedMessage = await decryptMessageFromImage(file);
+        decryptedMessage = await decryptMessageFromImage(file, key);
         if (decryptedMessage) {
           setMessage(decryptedMessage);
           setIsStegoDetected(false);
@@ -63,9 +55,20 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
     }
   };
 
+  function saveFile(blob: Blob, fileName: string): void {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName.replace(/\.[^/.]+$/, "") + "-encript";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
-      <div className="SteganographyForm">
+      <div className="SteganographyForm"> 
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value.substring(0, capacity))}
@@ -75,6 +78,9 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego }: { fil
         <p>Characters: {message.length}/{capacity}</p>
         <EncryptButton onEncrypt={handleEncrypt} />
         {isStegoDetected && <DecryptButton onDecrypt={handleDecrypt} />}
+        {isStegoDetected && (
+        <input type="text" value={key} onChange={e => setKey(e.target.value)} placeholder="Enter decryption key" />
+      )}
       </div>
     </>
   );

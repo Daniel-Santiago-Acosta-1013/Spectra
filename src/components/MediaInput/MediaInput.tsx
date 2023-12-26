@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
-import { decryptMessageFromImage } from '../../utils/imageSteganography'; 
 import Swal from 'sweetalert2';
 import './MediaInput.scss';
 
@@ -26,12 +25,7 @@ function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: F
             onFileChange(file, analysis.fileType, analysis.capacity);
 
             if (analysis.fileType === 'image') {
-                try {
-                    const decryptedMessage = await decryptMessageFromImage(file);
-                    onDecryptAttempt(decryptedMessage !== '');
-                } catch (error) {
-                    onDecryptAttempt(false);
-                }
+                onDecryptAttempt(true);
             }
         }
     };
