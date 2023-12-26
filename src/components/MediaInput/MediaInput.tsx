@@ -3,7 +3,7 @@ import analyzeFile, { FileAnalysis } from '../../utils/fileAnalyzer';
 import Swal from 'sweetalert2';
 import './MediaInput.scss';
 
-function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: File, fileType: string, capacity: number) => void, onDecryptAttempt: (isStegoDetected: boolean) => void }) {
+function MediaInput({ onFileChange }: { onFileChange: (file: File, fileType: string, capacity: number) => void, onDecryptAttempt: (isStegoDetected: boolean) => void }) {
     const [fileInfo, setFileInfo] = useState<FileAnalysis | null>(null);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +11,7 @@ function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: F
             const file = event.target.files[0];
             const analysis = analyzeFile(file);
 
-            if (analysis.fileType === 'unsupported') {
+            if (analysis.format === 'unsupported') {
                 Swal.fire({
                     title: 'Unsupported File Type',
                     text: 'Please select a PNG, JPEG, JPG, or SVG file.',
@@ -22,11 +22,7 @@ function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: F
             }
             
             setFileInfo(analysis);
-            onFileChange(file, analysis.fileType, analysis.capacity);
-
-            if (analysis.fileType === 'image') {
-                onDecryptAttempt(true);
-            }
+            onFileChange(file, analysis.format, analysis.capacity);
         }
     };
 
@@ -38,8 +34,9 @@ function MediaInput({ onFileChange, onDecryptAttempt }: { onFileChange: (file: F
             <input id="file-upload" type="file" onChange={handleFileChange} className="file-upload-input" />
             {fileInfo && (
                 <div className="file-info">
-                    <strong>File Type:</strong> {fileInfo.fileType}, <strong>Capacity:</strong> {fileInfo.capacity} characters
-                </div>
+                <strong>Image Format:</strong> {fileInfo.format?.toUpperCase()}, 
+                <strong> Capacity:</strong> {fileInfo.capacity} characters
+            </div>
             )}
         </div>
     );

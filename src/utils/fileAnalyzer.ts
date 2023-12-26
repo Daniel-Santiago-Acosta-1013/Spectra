@@ -1,27 +1,20 @@
-type FileType = 'image' | 'unsupported';
-
 export interface FileAnalysis {
-    fileType: FileType;
+    format: string;
     capacity: number;
 }
 
 function analyzeFile(file: File): FileAnalysis {
-    const fileType = determineFileType(file);
+    const format = file.type.split('/')[1].replace('svg+xml', 'svg');
     let capacity = 0;
 
-    if (fileType === 'image') {
-        capacity = calculateImageCapacity(file);
+    if (['png', 'jpeg', 'jpg', 'svg'].includes(format)) {
+        capacity = Math.floor(calculateImageCapacity(file));
     } else {
-        console.error('Unsupported file type');
+        console.error('Unsupported file format');
+        return { format: 'unsupported', capacity: 0 };
     }
 
-    return { fileType, capacity };
-}
-
-function determineFileType(file: File): FileType {
-    const type = file.type.split('/')[1];
-    if (type === 'png' || type === 'jpeg' || type === 'jpg' || type === 'svg+xml') return 'image';
-    return 'unsupported';
+    return { format, capacity };
 }
 
 function calculateImageCapacity(file: File): number {
