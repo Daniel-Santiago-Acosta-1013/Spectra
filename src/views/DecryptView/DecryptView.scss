@@ -1,0 +1,25 @@
+.DecryptView {
+    background-color: #131127;
+    color: #f0f6fc;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+
+    h1 {
+        color: #300390;
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2em;
+    }
+
+    .input-key {
+        padding: 10px;
+        margin-top: 20px;
+        border-radius: 20px;
+        border: 1px solid #30363d;
+        background-color: #161b22;
+        color: #c9d1d9;
+    }
+}

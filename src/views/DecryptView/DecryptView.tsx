@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SteganographyForm from '../../components/SteganographyForm/SteganographyForm';
 import MediaInput from '../../components/MediaInput/MediaInput';
+import './DecryptView.scss';
 
 const DecryptView: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -15,7 +16,7 @@ const DecryptView: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="DecryptView">
             <h1>Desencriptar Información de Imagen</h1>
             <MediaInput onFileChange={handleFileChange} />
             {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="decrypt" isPotentialStego={false} />}

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import EncryptView from './views/EncryptView/EncryptView';
 import DecryptView from './views/DecryptView/DecryptView';
+import './styles/App.scss';
 
 const App = () => {
     return (
