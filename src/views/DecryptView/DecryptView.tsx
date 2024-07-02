@@ -7,7 +7,6 @@ const DecryptView: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [fileType, setFileType] = useState<string>('');
     const [capacity, setCapacity] = useState<number>(0);
-    const [key, setKey] = useState<string>('');
 
     const handleFileChange = (selectedFile: File, type: string, cap: number) => {
         setFile(selectedFile);
@@ -20,7 +19,6 @@ const DecryptView: React.FC = () => {
             <h1>Decrypt Image Information</h1>
             <MediaInput onFileChange={handleFileChange} />
             {file && <SteganographyForm file={file} fileType={fileType} capacity={capacity} mode="decrypt" isPotentialStego={false} />}
-            <input type="text" value={key} onChange={e => setKey(e.target.value)} placeholder="Enter decryption key" className='input-key'/>
         </div>
     );
 }
