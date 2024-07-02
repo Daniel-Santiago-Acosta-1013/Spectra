@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 import EncryptButton from '../EncryptButton/EncryptButton';
 import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
+import Swal from 'sweetalert2';
 import './SteganographyForm.scss';
 
 function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
@@ -10,8 +10,6 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
 
   const [message, setMessage] = useState('');
   const [isStegoDetected, setIsStegoDetected] = useState(isPotentialStego);
-  const [key, setKey] = useState('');
-
   useEffect(() => {
     setIsStegoDetected(isPotentialStego);
   }, [isPotentialStego]);
@@ -48,9 +46,8 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
     }
 
     try {
-      const { encryptedFile, key: encryptionKey } = await encryptMessageInImage(file, message);
+      const encryptedFile = await encryptMessageInImage(file, message);
       saveFile(encryptedFile, encryptedFile.name);
-      saveFile(new Blob([encryptionKey], { type: 'text/plain' }), `key-${encryptedFile.name}.txt`);
       setIsStegoDetected(true);
     } catch (error) {
       console.error('Error en la encriptación:', error);
@@ -64,10 +61,10 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
   };
 
   const handleDecrypt = async () => {
-    if (!file || fileType !== 'image' || mode !== 'decrypt' || !key) return;
+    if (!file || fileType !== 'image' || mode !== 'decrypt') return;
 
     try {
-      const decryptedMessage = await decryptMessageFromImage(file, key);
+      const decryptedMessage = await decryptMessageFromImage(file);
       setMessage(decryptedMessage);
       setIsStegoDetected(false);
     } catch (error) {
@@ -104,9 +101,6 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
       <p>Characters: {message.length}/{capacity}</p>
       {mode === 'encrypt' && <EncryptButton onEncrypt={handleEncrypt} />}
       {isStegoDetected && mode === 'decrypt' && <DecryptButton onDecrypt={handleDecrypt} />}
-      {isStegoDetected && mode === 'decrypt' && (
-        <input type="text" value={key} onChange={e => setKey(e.target.value)} placeholder="Enter decryption key" />
-      )}
     </div>
   );
 }
