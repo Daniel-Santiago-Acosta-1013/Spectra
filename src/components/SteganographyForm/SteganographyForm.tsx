@@ -5,9 +5,9 @@ import DecryptButton from '../DecryptButton/DecryptButton';
 import { encryptMessageInImage, decryptMessageFromImage } from '../../utils/imageSteganography';
 import './SteganographyForm.scss';
 
-function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }: 
+function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
   { file: File | null, fileType: string, capacity: number, isPotentialStego: boolean, mode: 'encrypt' | 'decrypt' }) {
-  
+
   const [message, setMessage] = useState('');
   const [isStegoDetected, setIsStegoDetected] = useState(isPotentialStego);
   const [key, setKey] = useState('');
@@ -17,7 +17,35 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
   }, [isPotentialStego]);
 
   const handleEncrypt = async () => {
-    if (!file || fileType !== 'image' || mode !== 'encrypt') return;
+    if (!file || mode !== 'encrypt') {
+      Swal.fire({
+        title: 'Error',
+        text: 'Please select a file to encrypt.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+    if (!message) {
+      Swal.fire({
+        title: 'Error',
+        text: 'The message field is empty. Please enter a message to encrypt.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+
+    if (fileType !== 'png') {
+      Swal.fire({
+        title: 'Error',
+        text: 'The selected file is not a PNG image. Please select a PNG image to encrypt.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
 
     try {
       const { encryptedFile, key: encryptionKey } = await encryptMessageInImage(file, message);
@@ -26,6 +54,12 @@ function SteganographyForm({ file, fileType, capacity, isPotentialStego, mode }:
       setIsStegoDetected(true);
     } catch (error) {
       console.error('Error en la encriptación:', error);
+      Swal.fire({
+        title: 'Encryption Error',
+        text: 'An error occurred during encryption. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
     }
   };
 
