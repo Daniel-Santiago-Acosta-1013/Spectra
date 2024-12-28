@@ -1,0 +1,109 @@
+.stegano-guide {
+  display: grid;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .stegano-guide {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 3rem 2rem;
+    gap: 3rem;
+  }
+}
+
+.guide-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation-duration: 0.8s;
+  animation-fill-mode: forwards;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.guide-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.guide-content {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.guide-content p {
+  margin-bottom: 0.5rem;
+}
+
+.guide-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Animations */
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in {
+  animation-name: slideIn;
+}
+
+.fade-up {
+  animation-name: fadeUp;
+}
+
+.slide-up {
+  animation-name: slideUp;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,118 @@
+.stegano-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .stegano-animation {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 2rem;
+    gap: 1rem;
+  }
+}
+
+.original-image,
+.encoded-image {
+  width: 150px;
+  height: 150px;
+  background: #2d3748;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .original-image,
+  .encoded-image {
+    width: 200px;
+    height: 200px;
+    padding: 1rem;
+  }
+}
+
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .pixel-grid {
+    gap: 4px;
+  }
+}
+
+.pixel {
+  background: #4a5568;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pixel.encoded {
+  animation: pixelChange 3s infinite;
+}
+
+.binary-data {
+  position: relative;
+  padding: 0.75rem;
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .binary-data {
+    padding: 1rem;
+    max-width: 200px;
+  }
+}
+
+.binary-stream {
+  font-family: monospace;
+  color: #48bb78;
+  animation: streamMove 3s infinite linear;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .binary-stream {
+    font-size: 1rem;
+  }
+}
+
+@keyframes pixelChange {
+  0% {
+    background: #4a5568;
+  }
+  50% {
+    background: #553c9a;
+  }
+  100% {
+    background: #4a5568;
+  }
+}
+
+@keyframes streamMove {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
