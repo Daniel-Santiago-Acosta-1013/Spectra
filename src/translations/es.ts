@@ -5,12 +5,19 @@ export const translations = {
     button: 'Codificar Mensaje',
     placeholder: 'Escribe tu mensaje secreto...',
     selectImage: 'Seleccionar Imagen para Ocultar Mensaje',
-    download: 'Descargar Imagen Codificada'
+    selectImageButton: 'Seleccionar Imagen',
+    imageRequirement: 'Se recomienda usar imágenes PNG.',
+    encodeButton: 'Codificar Mensaje',
+    download: 'Descargar Imagen Codificada',
+    downloadButton: 'Descargar Imagen'
   },
   decode: {
     button: 'Decodificar Mensaje',
     placeholder: 'El mensaje decodificado aparecerá aquí...',
-    selectImage: 'Seleccionar Imagen para Decodificar'
+    selectImage: 'Seleccionar Imagen para Decodificar',
+    instruction: 'Sube una imagen para buscar un mensaje oculto.',
+    selectImageButton: 'Seleccionar Imagen',
+    selectAnotherImageButton: 'Seleccionar Otra Imagen'
   },
   errors: {
     noMessage: 'Por favor, ingresa un mensaje primero',
