@@ -65,7 +65,7 @@ const Bit: React.FC<{
   index: number;
   pixelId: string; 
   controls?: AnimationControls;
-}> = ({ id, value, index, pixelId, controls }) => {
+}> = ({ id, value, index, controls }) => {
   const bitVariants: Variants = {
     hidden: { opacity: 0, y: -30, x: 0, scale: 1 }, // Increased initial y offset
     visible: (i: number) => ({ 
