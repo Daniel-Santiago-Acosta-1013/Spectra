@@ -1,7 +1,6 @@
 import React, { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { Download, Lock, FileImage, MessageSquare, ArrowRight } from 'lucide-react';
 import { encodeMessage, decodeMessage, getImageCapacity } from '../utils/steganography';
-import { translations } from '../translations/es';
 import * as anime from 'animejs';
 
 // Renamed component to SteganographyPage
@@ -80,9 +79,9 @@ export const SteganographyPage: React.FC = () => {
     } catch (err) {
       const errorMessage = (err as Error).message;
        if (errorMessage.includes('invalid length')) {
-         setError(translations.errors.invalidLength);
+         setError('Se detectó una longitud de mensaje inválida');
        } else {
-         setError(translations.errors.processingError);
+         setError('Error al procesar la imagen');
        }
       setSelectedFile(null);
       setSelectedFileUrl(null);
@@ -97,7 +96,7 @@ export const SteganographyPage: React.FC = () => {
 
   const handleProceedToStep3 = () => {
     if (!message.trim()) {
-      setError(translations.errors.noMessage);
+      setError('Por favor, ingresa un mensaje primero');
       return;
     }
     setError(null);
@@ -129,11 +128,11 @@ export const SteganographyPage: React.FC = () => {
     } catch (err) {
       const errorMessage = (err as Error).message;
       if (errorMessage.includes('too large')) {
-        setError(translations.errors.messageTooLarge);
+        setError('El mensaje es demasiado grande para esta imagen');
       } else if (errorMessage.includes('invalid length')) {
-        setError(translations.errors.invalidLength);
+        setError('Se detectó una longitud de mensaje inválida');
       } else {
-        setError(translations.errors.processingError);
+        setError('Error al procesar la imagen');
       }
        setResult(null);
     } finally {
@@ -179,9 +178,8 @@ export const SteganographyPage: React.FC = () => {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       {/* Removed Header and outer divs, only the main card and below */}
       <div className="text-center mb-8 md:mb-12">
-          {/* This subtitle might be better placed outside the page component */}
           <p className="text-gray-400 text-sm md:text-base">
-            {translations.subtitle}
+            Oculta mensajes secretos en imágenes o decodifica mensajes ocultos
           </p>
       </div>
       <div className="max-w-xl mx-auto bg-gray-800 rounded-lg p-4 md:p-8 shadow-xl relative overflow-hidden">
@@ -194,7 +192,7 @@ export const SteganographyPage: React.FC = () => {
               }}
               className={`flex-1 py-2 md:py-3 px-3 md:px-4 rounded-lg flex items-center justify-center gap-2 transition-colors ${mode === 'encode' ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
               <Lock size={18} />
-              <span className="text-sm md:text-base">{translations.encode.button}</span>
+              <span className="text-sm md:text-base">Codificar Mensaje</span>
             </button>
             <button
               onClick={() => {
@@ -203,7 +201,7 @@ export const SteganographyPage: React.FC = () => {
               }}
               className={`flex-1 py-2 md:py-3 px-3 md:px-4 rounded-lg flex items-center justify-center gap-2 transition-colors ${mode === 'decode' ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}>
               <MessageSquare size={18} />
-              <span className="text-sm md:text-base">{translations.decode.button}</span>
+              <span className="text-sm md:text-base">Decodificar Mensaje</span>
             </button>
           </div>
 
@@ -218,10 +216,10 @@ export const SteganographyPage: React.FC = () => {
                     className="w-full py-3 md:py-4 px-4 md:px-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={isLoading}>
                     <FileImage size={18} />
-                    {isLoading ? 'Analizando...' : translations.encode.selectImageButton}
+                    {isLoading ? 'Analizando...' : 'Seleccionar Imagen'}
                   </button>
                   <input type="file" accept="image/png" ref={fileInputRef} onChange={handleImageUpload} className="hidden" />
-                  <p className="text-xs text-gray-400 mt-3 text-center">{translations.encode.imageRequirement}</p>
+                  <p className="text-xs text-gray-400 mt-3 text-center">Se recomienda usar imágenes PNG.</p>
               </div>
                {/* Step 2 */}
               <div ref={step2Ref} style={{ display: encodeStep === 2 ? 'block' : 'none' }}>
@@ -230,7 +228,7 @@ export const SteganographyPage: React.FC = () => {
                      <textarea
                         value={message}
                         onChange={handleMessageChange}
-                        placeholder={translations.encode.placeholder}
+                        placeholder="Escribe tu mensaje secreto..."
                         disabled={isLoading}
                         className="w-full h-24 md:h-32 px-3 md:px-4 py-2 md:py-3 rounded-lg bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"/>
                     {capacity !== null && (
@@ -258,7 +256,7 @@ export const SteganographyPage: React.FC = () => {
                  {!result && (
                     <button onClick={handleEncode} disabled={isLoading} className="w-full py-3 md:py-4 px-4 md:px-6 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed">
                       <Lock size={18} />
-                      {isLoading ? 'Codificando...' : translations.encode.encodeButton}
+                      {isLoading ? 'Codificando...' : 'Codificar Mensaje'}
                     </button>
                  )}
                  {result && !isLoading && (
@@ -266,7 +264,7 @@ export const SteganographyPage: React.FC = () => {
                       <p className="text-green-400 mb-3">¡Mensaje codificado con éxito!</p>
                       <a href={result} download={`${selectedFile?.name.replace(/\.[^/.]+$/, '') || 'encoded'}_stegano.png`} className="inline-flex items-center justify-center gap-2 py-2 md:py-3 px-4 md:px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm md:text-base">
                         <Download size={18} />
-                        {translations.encode.downloadButton}
+                        Descargar Imagen
                       </a>
                     </div>
                  )}
@@ -280,21 +278,21 @@ export const SteganographyPage: React.FC = () => {
               <div className="mb-6">
                  <h3 className="text-lg font-semibold mb-4 text-center text-purple-300">Decodificar Mensaje</h3>
                  {message && !isLoading && !error && (
-                    <textarea value={message} placeholder={translations.decode.placeholder} readOnly className="w-full h-24 md:h-32 px-3 md:px-4 py-2 md:py-3 rounded-lg bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base mb-4"/>
+                    <textarea value={message} placeholder="El mensaje decodificado aparecerá aquí..." readOnly className="w-full h-24 md:h-32 px-3 md:px-4 py-2 md:py-3 rounded-lg bg-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base mb-4"/>
                  )}
                   {!selectedFile && !isLoading && (
-                     <p className="text-center text-gray-400 mb-4">{translations.decode.instruction}</p>
+                     <p className="text-center text-gray-400 mb-4">Sube una imagen para buscar un mensaje oculto.</p>
                   )}
               </div>
               <div className="flex flex-col items-center gap-4">
                 <button onClick={() => fileInputRef.current?.click()} className="w-full py-3 md:py-4 px-4 md:px-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed" disabled={isLoading}>
                   <FileImage size={18} />
-                  {isLoading ? 'Decodificando...' : selectedFile ? translations.decode.selectAnotherImageButton : translations.decode.selectImageButton}
+                  {isLoading ? 'Decodificando...' : selectedFile ? 'Seleccionar Otra Imagen' : 'Seleccionar Imagen'}
                 </button>
                 <input type="file" accept="image/png" ref={fileInputRef} onChange={handleImageUpload} className="hidden"/>
                   {isLoading && <p className="text-center text-gray-400 mt-2">Procesando imagen...</p>}
                   {!isLoading && mode === 'decode' && selectedFile && !message && !error && (
-                    <p className="text-center text-yellow-400 mt-2">{translations.errors.noHiddenMessage}</p>
+                    <p className="text-center text-yellow-400 mt-2">No se encontró ningún mensaje oculto</p>
                   )}
               </div>
             </div>

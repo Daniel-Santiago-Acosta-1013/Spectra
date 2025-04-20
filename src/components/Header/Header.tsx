@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { translations } from '../../translations/es';
 
 export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,14 +23,14 @@ export const Header: React.FC = () => {
     <header className="bg-gray-800 shadow-lg sticky top-0 z-50 border-b border-gray-700">
       <nav className="container mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
         <Link to="/" className="text-xl md:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
-          {translations.title}
+          Spectra
         </Link>
         <div className="hidden md:flex items-center space-x-6">
           <NavLink to="/" className={navLinkClasses} end>
             Codificar / Decodificar
           </NavLink>
           <NavLink to="/how-it-works" className={navLinkClasses}>
-            {translations.howItWorks}
+            Cómo Funciona la Esteganografía
           </NavLink>
         </div>
         <div className="md:hidden">
@@ -56,7 +55,7 @@ export const Header: React.FC = () => {
               className={mobileNavLinkClasses}
               onClick={toggleMobileMenu}
             >
-              {translations.howItWorks}
+              Cómo Funciona la Esteganografía
             </NavLink>
           </div>
         </div>
