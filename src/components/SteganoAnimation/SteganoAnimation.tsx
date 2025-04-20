@@ -46,7 +46,6 @@ const Pixel: React.FC<{
       {lsb && (
         <motion.span 
           variants={lsbVariants}
-          // Responsive text size
           className="absolute inset-0 flex items-center justify-center text-xs sm:text-sm text-white lsb-bit"
           initial="hidden"
           animate={lsbControls}
