@@ -2,8 +2,6 @@ import React from 'react';
 import { motion, Variants, useAnimation, AnimationControls } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
-// --- Component Definitions (Larger Elements) ---
-
 const Pixel: React.FC<{ 
   id: string; 
   color: string; 
@@ -17,12 +15,12 @@ const Pixel: React.FC<{
     visible: { 
       opacity: 1, 
       scale: 1, 
-      transition: { duration: 0.5 }, // Slightly longer duration for larger size
+      transition: { duration: 0.5 },
       borderColor: '#4B5563'
     },
     modified: { 
       borderColor: ['#4B5563', '#A78BFA', '#4B5563'],
-      scale: [1, 1.15, 1], // More noticeable pulse
+      scale: [1, 1.15, 1],
       transition: { duration: 0.5, times: [0, 0.5, 1] }
     }
   };
@@ -65,13 +63,12 @@ const Bit: React.FC<{
   controls?: AnimationControls;
 }> = ({ id, value, index, controls }) => {
   const bitVariants: Variants = {
-    hidden: { opacity: 0, y: -30, x: 0, scale: 1 }, // Increased initial y offset
+    hidden: { opacity: 0, y: -30, x: 0, scale: 1 },
     visible: (i: number) => ({ 
       opacity: 1, 
       y: 0, 
       x: 0,
       scale: 1,
-      // Slightly slower stagger for visibility
       transition: { delay: i * 0.12 }
     }),
   };
@@ -80,7 +77,6 @@ const Bit: React.FC<{
       key={id}
       variants={bitVariants}
       custom={index}
-      // Responsive size, text, and spacing
       className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-blue-400 bg-blue-800 text-white flex items-center justify-center text-xs sm:text-sm mx-0.5 sm:mx-1 secret-bit"
       data-bit-id={id}
       initial="hidden"
@@ -132,7 +128,7 @@ export const SteganoAnimation: React.FC = () => {
         await bitControls.start('visible');
         if (!isMounted) break;
         
-        await new Promise(res => setTimeout(res, 1000)); // Increased pause before interaction
+        await new Promise(res => setTimeout(res, 1000));
         if (!isMounted) break;
 
         // 3. Interaction Phase
@@ -147,18 +143,15 @@ export const SteganoAnimation: React.FC = () => {
               const containerRect = containerElement.getBoundingClientRect();
 
               const targetX = pixelRect.left - containerRect.left + (pixelRect.width / 2) - (bitRect.width / 2);
-              // Target the exact center of the pixel
               const targetY = pixelRect.top - containerRect.top + (pixelRect.height / 2) - (bitRect.height / 2); 
               
-              // Animate bit towards pixel and fade completely
               await bitControls.start(customIndex => {
                  if (customIndex === i) {
                      return { 
                          x: targetX, 
                          y: targetY, 
                          opacity: 0, 
-                         scale: 0, // Scale to 0 for full disappearance
-                         // Slightly longer duration for larger movement
+                         scale: 0,
                          transition: { duration: 0.6, ease: "easeInOut", delay: i * 0.1 } 
                      };
                  }
@@ -169,7 +162,6 @@ export const SteganoAnimation: React.FC = () => {
           
         // Start LSB/Pixel animations concurrently, timed with bit arrival
         const lsbPixelAnimations = Promise.all([
-           // Start LSB slightly before bit fully disappears (duration 0.6)
            new Promise(res => setTimeout(res, 400)), // Delay based on bit animation duration and stagger
            lsbControls.start('visible'), 
            pixelControls.start('modified')
@@ -178,8 +170,7 @@ export const SteganoAnimation: React.FC = () => {
         await Promise.all([...interactionPromises, lsbPixelAnimations]);
         if (!isMounted) break;
 
-        // --- Pause and Reset for Loop --- 
-        await new Promise(res => setTimeout(res, 1500)); // Longer pause to see final state
+        await new Promise(res => setTimeout(res, 1500));
         if (!isMounted) break;
 
         // Reset: Start animations back to hidden state for the loop
