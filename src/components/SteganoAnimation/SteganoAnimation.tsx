@@ -37,8 +37,7 @@ const Pixel: React.FC<{
     <motion.div
       key={id}
       variants={pixelVariants}
-      // Increased size and adjusted border/text
-      className={`w-8 h-8 border-2 flex items-center justify-center ${color} original-pixel relative`} 
+      className={`w-6 h-6 sm:w-8 sm:h-8 border-2 flex items-center justify-center ${color} original-pixel relative`} 
       data-pixel-id={id}
       animate={pixelControls}
       initial="hidden"
@@ -47,8 +46,8 @@ const Pixel: React.FC<{
       {lsb && (
         <motion.span 
           variants={lsbVariants}
-          // Adjusted text size
-          className="absolute inset-0 flex items-center justify-center text-sm text-white lsb-bit"
+          // Responsive text size
+          className="absolute inset-0 flex items-center justify-center text-xs sm:text-sm text-white lsb-bit"
           initial="hidden"
           animate={lsbControls}
         >
@@ -82,8 +81,8 @@ const Bit: React.FC<{
       key={id}
       variants={bitVariants}
       custom={index}
-      // Increased size, text, and spacing
-      className="w-8 h-8 border-2 border-blue-400 bg-blue-800 text-white flex items-center justify-center text-sm mx-1 secret-bit"
+      // Responsive size, text, and spacing
+      className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-blue-400 bg-blue-800 text-white flex items-center justify-center text-xs sm:text-sm mx-0.5 sm:mx-1 secret-bit"
       data-bit-id={id}
       initial="hidden"
       animate={controls}
@@ -217,17 +216,17 @@ export const SteganoAnimation: React.FC = () => {
   return (
     <div 
       ref={containerRef}
-      // Increased min-height and spacing
-      className="stegano-animation-container p-4 md:p-6 bg-gray-900 rounded-lg relative overflow-hidden min-h-[300px] flex flex-col items-center justify-center space-y-12"
+      // Responsive padding, min-height, and vertical spacing
+      className="stegano-animation-container p-2 sm:p-4 md:p-6 bg-gray-900 rounded-lg relative overflow-hidden min-h-[250px] sm:min-h-[300px] flex flex-col items-center justify-center space-y-8 md:space-y-12"
     >
-      {/* Pixel Grid - Increased spacing */}
-      <div className="flex justify-center space-x-2">
+      {/* Pixel Grid - Responsive spacing */}
+      <div className="flex justify-center space-x-1 sm:space-x-2">
         {originalPixelsData.map(p => (
           <Pixel key={p.id} id={p.id} color={p.color} lsb={p.lsb} pixelControls={pixelControls} lsbControls={lsbControls} />
         ))}
       </div>
-      {/* Bit Stream - Increased spacing */}
-      <div className="flex justify-center space-x-2">
+      {/* Bit Stream - Responsive spacing */}
+      <div className="flex justify-center space-x-1 sm:space-x-2">
         {originalPixelsData.map((p, i) => ( 
            <Bit key={`bit-${i}`} id={`bit-${i}`} value={secretMessage[i]} index={i} pixelId={p.id} controls={bitControls} />
         ))}
